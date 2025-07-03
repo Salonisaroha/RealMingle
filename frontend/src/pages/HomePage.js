@@ -1,8 +1,14 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Flex, Box, Text } from '@chakra-ui/react';
 import Signup from "../components/Authentication/Signup";
+import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 
 const Homepage = () => {
+  const history =  useHistory();
+  useEffect(()=>{
+    const user = JSON.parse(localStorage.getItem("userInfo"));
+    if(user) history.push("/chats");
+  }, [history]);
   return (
     <Flex
       direction="column"
