@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from "axios";
 import {
   Box,
   Button,
@@ -17,11 +18,14 @@ import {
   DrawerHeader,
   DrawerBody,
   Input,
+  useToast,
 } from "@chakra-ui/react";
 import { BellIcon, ChevronDownIcon } from "@chakra-ui/icons";
 import { ChatState } from "../../Context/ChatProvider";
 import ProfileModel from "./ProfileModel";
 import { useHistory } from "react-router-dom";
+import ChatLoading from "../ChatLoading";
+import UserListItem from "../UserAvatar/UserListItem";
 
 const SideDrawer = () => {
   const [search, setSearch] = useState("");
@@ -37,6 +41,42 @@ const SideDrawer = () => {
     history.push("/");
   };
 
+  const toast = useToast();
+const handleSearch = async() =>{
+  if(!search) {
+    toast({
+      title:"Please Enter something in search",
+      status:"warning",
+      duration:5000,
+      isClosable:true,
+      position:"top-left",
+    });
+    return;
+  }
+  try{
+   setLoading(true);
+   const config = {
+    headers:{
+      Authorization:`Bearer ${user.token}`,
+    },
+   };
+   const {data} = await axios.get(`/api/users?search=${search}`, config);
+   setLoading(false);
+   setSearchResult(data);
+  } catch(error){
+   toast({
+    title:"Error Ocuured",
+    description:"Failed to load the Search rsults",
+    status:"error",
+    duration:5000,
+    isClosable :true,
+    position:"bottom-left"
+   })
+  }
+};
+const accessChat = (userId) => {
+
+}
   return (
     <>
       <Box
@@ -92,8 +132,7 @@ const SideDrawer = () => {
         <DrawerOverlay />
         <DrawerContent>
           <DrawerHeader borderBottomWidth="1px">Search Users</DrawerHeader>
-        </DrawerContent>
-        <DrawerBody>
+          <DrawerBody>
           <Box display="flex" pb={2}>
             <Input
               placeholder="Search by name or email"
@@ -101,10 +140,22 @@ const SideDrawer = () => {
               value={search}
               onChange={(e) => setSearch(e.target.value)}
             />
-            <Button //</Box>onClick={handleSearch}
+            <Button onClick={handleSearch}
             >Go</Button>
-          </Box>{" "}
+          </Box>
+          {loading ? (
+             <ChatLoading/> ) :(
+              searchResult?.map((user) =>(
+                <UserListItem key ={user._id}
+                user={user}
+                
+                handleFunction = {()=> accessChat(user._id)}  />
+              ))
+             )
+            }
         </DrawerBody>
+        </DrawerContent>
+        
       </Drawer>
     </>
   );
