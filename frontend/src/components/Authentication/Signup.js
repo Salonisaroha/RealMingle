@@ -14,7 +14,7 @@ import {
   Flex,
   useToast,
 } from "@chakra-ui/react";
-import { Link } from "react-router-dom"; // ✅ Add Link for navigation
+import { Link } from "react-router-dom"; 
 
 const Signup = () => {
   const [show, setShow] = useState(false);
@@ -51,10 +51,10 @@ const Signup = () => {
       })
         .then((res) => res.json())
         .then((data) => {
-          console.log("Cloudinary upload response:", data); // ✅
+          console.log("Cloudinary upload response:", data); 
           if (data.secure_url) {
             setPic(data.secure_url);
-            console.log("Uploaded image URL:", data.secure_url); // ✅
+            console.log("Uploaded image URL:", data.secure_url); 
           } else {
             console.error("Upload failed:", data);
           }

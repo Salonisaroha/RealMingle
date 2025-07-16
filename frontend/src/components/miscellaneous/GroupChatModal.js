@@ -16,7 +16,7 @@ import React, { useState } from "react";
 import { ChatState } from "../../Context/ChatProvider";
 import axios from "axios";
 import UserListItem from "../UserAvatar/UserListItem";
-import UserBadgeItem from "../UserAvatar/UserBadgeItem"; // ✅ Make sure this is created
+import UserBadgeItem from "../UserAvatar/UserBadgeItem"; 
 
 const GroupChatModal = ({ children }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -29,7 +29,7 @@ const GroupChatModal = ({ children }) => {
   const toast = useToast();
   const { user, chats, setChats } = ChatState();
 
-  // ✅ Search for users
+  
   const handleSearch = async (query) => {
     setSearch(query);
     if (!query) return;
@@ -56,7 +56,7 @@ const GroupChatModal = ({ children }) => {
     }
   };
 
-  // ✅ Add user to selected list
+  
   const handleGroup = (userToAdd) => {
     if (selectedUsers.includes(userToAdd)) {
       toast({
@@ -71,12 +71,12 @@ const GroupChatModal = ({ children }) => {
     setSelectedUsers([...selectedUsers, userToAdd]);
   };
 
-  // ✅ Remove user from selected list
+  // Remove user from selected list
   const handleDelete = (delUser) => {
     setSelectedUsers(selectedUsers.filter((sel) => sel._id !== delUser._id));
   };
 
-  // ✅ Submit group creation
+  // Submit group creation
   const handleSubmit = async() => {
     if (!groupChatName || selectedUsers.length === 0) {
       toast({
@@ -120,9 +120,6 @@ const GroupChatModal = ({ children }) => {
 
     console.log("Creating Group Chat:", groupChatName, selectedUsers);
 
-    // 🔗 Add your API call here to actually create the group chat
-    // Example: await axios.post('/api/group', { ... })
-
     onClose();
   };
 
@@ -142,7 +139,7 @@ const GroupChatModal = ({ children }) => {
           </ModalHeader>
           <ModalCloseButton />
           <ModalBody display="flex" flexDirection="column" alignItems="center">
-            {/* ✅ Chat Name */}
+            {/*  Chat Name */}
             <FormControl>
               <Input
                 placeholder="Chat Name"
@@ -151,7 +148,7 @@ const GroupChatModal = ({ children }) => {
               />
             </FormControl>
 
-            {/* ✅ Search Users */}
+            {/* Search Users */}
             <FormControl>
               <Input
                 placeholder="Add Users eg: John, Piyush, Jane"
@@ -160,7 +157,7 @@ const GroupChatModal = ({ children }) => {
               />
             </FormControl>
 
-            {/* ✅ Selected Users */}
+            {/* Selected Users */}
             <div style={{ display: "flex", flexWrap: "wrap", marginBottom: "10px" }}>
               {selectedUsers.map((u) => (
                 <UserBadgeItem
@@ -171,7 +168,7 @@ const GroupChatModal = ({ children }) => {
               ))}
             </div>
 
-            {/* ✅ Search Results */}
+            {/* Search Results */}
             {loading ? (
               <div>Loading...</div>
             ) : (
