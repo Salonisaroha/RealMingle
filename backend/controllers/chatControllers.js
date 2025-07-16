@@ -10,7 +10,7 @@ const accessChat = asyncHandler(async (req, res) => {
     return res.sendStatus(400);
   }
 
-  // ✅ FIX: use Chat instead of chats
+  
   var isChat = await Chat.find({
     isGroup: false,
     $and: [{ users: req.user._id }, { users: userId }],
@@ -18,7 +18,7 @@ const accessChat = asyncHandler(async (req, res) => {
     .populate("users", "-password")
     .populate("latestMessage");
 
-  // ✅ FIX: use Chat.populate instead of Userer.populate
+  
   isChat = await Chat.populate(isChat, {
     path: "latestMessage.sender",
     select: "name pic email",
@@ -36,7 +36,7 @@ const accessChat = asyncHandler(async (req, res) => {
     try {
       const createdChat = await Chat.create(chatData);
 
-      // ✅ FIX: use Chat.findOne instead of ChatfindOne
+    
       const FullChat = await Chat.findOne({ _id: createdChat._id }).populate(
         "users",
         "-password"
@@ -52,14 +52,14 @@ const accessChat = asyncHandler(async (req, res) => {
 
 const fetchChats = asyncHandler(async (req, res) => {
   try {
-    Chat.find({ users: { $eleMatch: { $eq: req.user._id } } })
+    Chat.find({ users: req.user._id })  
       .populate("users", "-password")
       .populate("groupAdmin", "-password")
       .populate("latestMessage")
-      .sort({updatedAt:-1})
-      .then(async(results)=>{
+      .sort({ updatedAt: -1 })
+      .then(async (results) => {
         results = await User.populate(results, {
-          path:"latestMessage.sender",
+          path: "latestMessage.sender",
           select: "name pic email",
         });
         res.status(200).send(results);
@@ -69,6 +69,7 @@ const fetchChats = asyncHandler(async (req, res) => {
     throw new Error(error.message);
   }
 });
+
 const createGroupChat = asyncHandler(async(req,res)=>{
      if(!req.body.users || !req.body.name){
       return res.status(400).send({message:"Please fill all the fields"});
