@@ -5,13 +5,13 @@ import SideDrawer from "../components/miscellaneous/SideDrawer";
 import MyChats from "../components/MyChats";
 import ChatBox from "../components/ChatBox";
 
-const ChatPage = () => {
+const ChatPage = ({setUser}) => {
   const { user } = ChatState();
   const [fetchAgain, setFetchAgain] = useState(false);
 
   return (
     <div style={{ width: "100%" }}>
-      {user && <SideDrawer />}
+      {user && <SideDrawer setUser={setUser} />}
       <Box
         display="flex"
         justifyContent="space-between"

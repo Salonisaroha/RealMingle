@@ -70,66 +70,71 @@ const Signup = () => {
     }
   };
 
-  const submitHandler = async () => {
-    setLoading(true);
-    if (!name || !email || !password || !confirmpassword) {
-      toast({
-        title: "Please Fill all the Fields",
-        status: "warning",
-        duration: 5000,
-        isClosable: true,
-        position: "bottom",
-      });
-      setLoading(false);
-      return;
-    }
-    if (password !== confirmpassword) {
-      toast({
-        title: "Passwords Do Not Match",
-        status: "warning",
-        duration: 5000,
-        isClosable: true,
-        position: "bottom",
-      });
-      setLoading(false);
-      return;
-    }
-    try {
-      const config = {
-        headers: {
-          "Content-type": "application/json",
-        },
-      };
-      const { data } = await axios.post(
-        "/api/user",
-        { name, email, password, pic },
-        config
-      );
-      toast({
-        title: "Registration is Successful",
-        status: "success",
-        duration: 5000,
-        isClosable: true,
-        position: "bottom",
-      });
-      localStorage.setItem("userInfo", JSON.stringify(data));
-      setLoading(false);
-      history.push("/chats");
-    } catch (error) {
-      toast({
-        title: "Error Occured!",
-        description:
-          error.response?.data?.message ||
-          error.message ||
-          "Something went wrong",
-        status: "error",
-        duration: 5000,
-        isClosable: true,
-        position: "bottom",
-      });
-      setLoading(false);
-    }
-  };
+const submitHandler = async () => {
+  if (loading) return; 
+  setLoading(true);
+
+  if (!name || !email || !password || !confirmpassword) {
+    toast({
+      title: "Please Fill all the Fields",
+      status: "warning",
+      duration: 5000,
+      isClosable: true,
+      position: "bottom",
+    });
+    setLoading(false);
+    return;
+  }
+
+  if (password !== confirmpassword) {
+    toast({
+      title: "Passwords Do Not Match",
+      status: "warning",
+      duration: 5000,
+      isClosable: true,
+      position: "bottom",
+    });
+    setLoading(false);
+    return;
+  }
+
+  try {
+    const config = {
+      headers: {
+        "Content-type": "application/json",
+      },
+    };
+    const { data } = await axios.post(
+      "/api/user",
+      { name, email, password, pic },
+      config
+    );
+    toast({
+      title: "Registration is Successful",
+      status: "success",
+      duration: 5000,
+      isClosable: true,
+      position: "bottom",
+    });
+    localStorage.setItem("userInfo", JSON.stringify(data));
+    setLoading(false);
+    history.push("/chats");
+  } catch (error) {
+    toast({
+      title: "Error Occured!",
+      description:
+        error.response?.data?.message ||
+        error.message ||
+        "Something went wrong",
+      status: "error",
+      duration: 5000,
+      isClosable: true,
+      position: "bottom",
+    });
+    setLoading(false);
+  }
+};
+
 
   return (
     <Flex

@@ -34,7 +34,7 @@ const Homepage = () => {
       <Box
         bg="white"
         w="130%"
-        maxW="1400px"    // ✅ Wider card (adjust as you like)
+        maxW="900px"    
         borderRadius="xl"
         boxShadow="lg"
         overflow="hidden"

@@ -30,7 +30,7 @@ import UserListItem from "../UserAvatar/UserListItem";
 import { getSender } from "../../config/ChatLogics";
 import NotificationBadge, { Effect } from "react-notification-badge";
 
-const SideDrawer = () => {
+const SideDrawer = ({ setUser }) => {
   const [search, setSearch] = useState("");
   const [searchResult, setSearchResult] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -49,10 +49,12 @@ const SideDrawer = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = useToast();
 
-  const logoutHandler = () => {
-    localStorage.removeItem("userInfo");
-    history.push("/");
-  };
+ const logoutHandler = () => {
+  localStorage.removeItem("userInfo");
+  setUser(null); 
+  history.push("/");
+};
+
 
   const handleSearch = async () => {
     if (!search) {
