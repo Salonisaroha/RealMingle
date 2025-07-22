@@ -19,32 +19,45 @@ function App() {
   }, []);
 
   return (
-    <Router>
-      <Switch>
-        {/* Homepage route */}
-        <Route
-          exact
-          path="/"
-          render={() => (user ? <Redirect to="/chats" /> : <Homepage />)}
-        />
+    <div
+      style={{
+        backgroundImage: "url('/BG.jpg')",
+        backgroundRepeat: "repeat",
+        backgroundSize: "auto", // try 'cover' if it looks better
+        backgroundPosition: "top left",
+        backgroundAttachment: "fixed",
+        minHeight: "100vh",
+        width: "100vw",
+        overflow: "hidden",
+      }}
+    >
+      <Router>
+        <Switch>
+          {/* Homepage route */}
+          <Route
+            exact
+            path="/"
+            render={() => (user ? <Redirect to="/chats" /> : <Homepage />)}
+          />
 
-        {/* Login route */}
-        <Route
-          path="/login"
-          render={() => (user ? <Redirect to="/chats" /> : <Login />)}
-        />
+          {/* Login route */}
+          <Route
+            path="/login"
+            render={() => (user ? <Redirect to="/chats" /> : <Login />)}
+          />
 
-        <Route
-          path="/chats"
-          render={() =>
-            user ? <ChatPage setUser={setUser} /> : <Redirect to="/" />
-          }
-        />
+          <Route
+            path="/chats"
+            render={() =>
+              user ? <ChatPage setUser={setUser} /> : <Redirect to="/" />
+            }
+          />
 
-        {/* Fallback */}
-        <Route path="*" render={() => <Redirect to="/" />} />
-      </Switch>
-    </Router>
+          {/* Fallback */}
+          <Route path="*" render={() => <Redirect to="/" />} />
+        </Switch>
+      </Router>
+    </div>
   );
 }
 

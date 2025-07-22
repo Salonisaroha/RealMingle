@@ -1,4 +1,7 @@
 import React, { useState } from "react";
+import '../../App.css'; 
+
+
 import axios from "axios";
 import { useHistory } from "react-router-dom";
 import {
@@ -136,7 +139,8 @@ const submitHandler = async () => {
 };
 
 
-  return (
+ return (
+  <div className="App"> {/* 👈 This applies your background image */}
     <Flex
       direction={{ base: "column", md: "row" }}
       w="100%"
@@ -263,7 +267,8 @@ const submitHandler = async () => {
         </VStack>
       </Box>
     </Flex>
-  );
-};
+  </div>
+);
+}
 
 export default Signup;
